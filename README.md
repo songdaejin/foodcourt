@@ -1,11 +1,11 @@
 
 # 개인 과제 수행 Project
-![rentbook](https://user-images.githubusercontent.com/89369983/131526770-d23daef7-0e18-4dff-8c56-419204bfd670.PNG)
+![image](https://user-images.githubusercontent.com/88808280/133920732-a2d6a859-68d4-4588-a1fa-f595660c7daf.png)
 ## 푸트코트(food court) 주문    
 
 # Table of contents
 
-- [도서 대여 관리 시스템](#---)
+- [푸드코트 주문 시스템](#---)
   - [서비스 시나리오](#서비스-시나리오)
   - [체크포인트](#체크포인트)
   - [분석/설계](#분석설계)
