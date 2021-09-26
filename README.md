@@ -91,10 +91,10 @@ B. 매장 주문관리
 
 ### 1차 완성본에 대한 기능적/비기능적 요구사항을 커버하는지 검증
 
-![image](https://user-images.githubusercontent.com/88808280/134810537-d5fbc4f6-c221-4921-941c-2b783d7657f8.png)
+![image](https://user-images.githubusercontent.com/88808280/134810728-a98e4569-48ea-4d92-baeb-2b25eb5a80e1.png)
 
-①. 고객은 식당, 음식 및 수량을 선택 후 주문할수 있다
-②. 고객은 조리 접수 되지 않은 주문에 대해 취소 요청할수 있다
+1. 고객은 식당, 음식 및 수량을 선택 후 주문할수 있다
+2. 고객은 조리 접수 되지 않은 주문에 대해 취소 요청할수 있다
 3. 조리전에 주문건에 대해 접수 처리 후 조리 시작한다
 4. 조리가 완료된 주문건에 대해서는 주문완료 처리한다
 5. 주문 완료 처리한 주문은 알림판을 통해 알림 처리된다.
@@ -105,8 +105,7 @@ B. 매장 주문관리
     - 호출관계에서 PubSub 과 Req/Resp 를 구분함
     - 서브 도메인과 바운디드 컨텍스트의 분리
     
-![image](https://user-images.githubusercontent.com/89369983/133120467-3a6f40a2-3658-44b0-9064-e5b7c6ffbf6c.png)
-
+![image](https://user-images.githubusercontent.com/88808280/134810874-57ca4cfe-5bf2-4600-9f53-ddd14d19fe89.png)
 
 
 # 구현
