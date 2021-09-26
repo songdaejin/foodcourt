@@ -65,17 +65,17 @@ B. 매장 주문관리
 
 
 ### 이벤트 도출
-![event도출](https://user-images.githubusercontent.com/88808251/133038667-f9dfa441-70d8-49b0-9fda-275c9b8a4ff8.png)
+![image](https://user-images.githubusercontent.com/88808280/134804267-6404ff1a-cdfb-470e-8bc8-161708a14da6.png)
 
 ### 부적격 이벤트 탈락
-![부적격event](https://user-images.githubusercontent.com/88808251/133038874-87c1c2e8-fd3c-48ce-a249-7420095cdaf2.png)
+![image](https://user-images.githubusercontent.com/88808280/134804307-87390d5a-0e29-40ae-9893-e5b8fcbf8571.png)
 
 
 ### 액터, 커맨드 부착하여 읽기 좋게
-![action](https://user-images.githubusercontent.com/88808251/133040781-18dfdfb8-c608-4b80-83cb-f1583f7efbea.png)
+![image](https://user-images.githubusercontent.com/88808280/134804489-b80c8641-bbed-44c7-935b-c9664ee8fae8.png)
 
-### 어그리게잇으로 묶기
-![aggregate](https://user-images.githubusercontent.com/88808251/133040968-2c8724f1-1129-47be-b78c-b01e15eb81ea.png)
+### 어그리게잇
+![image](https://user-images.githubusercontent.com/88808280/134804679-1d6f77d9-acba-422d-9c93-fc829db8491d.png)
 
 ### 바운디드 컨텍스트로 묶기
 ![boundedct](https://user-images.githubusercontent.com/88808251/133041492-4cfab21a-06fd-49ae-9841-68c9986f0495.png)
