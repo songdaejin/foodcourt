@@ -78,10 +78,10 @@ B. 매장 주문관리
 ![image](https://user-images.githubusercontent.com/88808280/134804679-1d6f77d9-acba-422d-9c93-fc829db8491d.png)
 
 ### 바운디드 컨텍스트로 묶기
-![boundedct](https://user-images.githubusercontent.com/88808251/133041492-4cfab21a-06fd-49ae-9841-68c9986f0495.png)
+![image](https://user-images.githubusercontent.com/88808280/134809636-6c6deb6b-a589-4df8-9cbb-c81f1e6518be.png)
 
 ### 폴리시 부착 (괄호는 수행주체, 폴리시 부착을 둘째단계에서 해놔도 상관 없음. 전체 연계가 초기에 드러남)
-![policy](https://user-images.githubusercontent.com/88808251/133041754-0be6eedd-56d0-4938-bf12-4ea5eeff6ed6.png)
+![image](https://user-images.githubusercontent.com/88808280/134809764-fbdda5e8-95bb-4e1c-95a5-d44558f55055.png)
 
 ### 폴리시의 이동과 컨텍스트 매핑 (점선은 Pub/Sub, 실선은 Req/Resp)
 ![policy_ct](https://user-images.githubusercontent.com/88808251/133172776-f1f634ae-e50b-4d90-824a-fc112c80fbba.png)
