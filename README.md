@@ -84,7 +84,7 @@ B. 매장 주문관리
 ![image](https://user-images.githubusercontent.com/88808280/134809764-fbdda5e8-95bb-4e1c-95a5-d44558f55055.png)
 
 ### 폴리시의 이동과 컨텍스트 매핑 (점선은 Pub/Sub, 실선은 Req/Resp)
-![policy_ct](https://user-images.githubusercontent.com/88808251/133172776-f1f634ae-e50b-4d90-824a-fc112c80fbba.png)
+![image](https://user-images.githubusercontent.com/88808280/134809928-a8883dea-5108-4cfc-aec9-d5a68ee24547.png)
 
 ### 완성된 1차 모형
 ![complete](https://user-images.githubusercontent.com/88808251/133172930-a879c2ec-9439-4089-850f-03853375e5e2.png)
