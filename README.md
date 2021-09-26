@@ -61,7 +61,7 @@ B. 매장 주문관리
 ![image](https://user-images.githubusercontent.com/88808280/134804111-b8010333-b3d4-4972-8cd7-579c123f4f23.png)
 
 ## Event Storming 결과
-* MSAEz 로 모델링한 이벤트스토밍 결과:  http://www.msaez.io/#/storming/CWH9U9ZXJmRVhWyyz88s1h12bLz1/2d59a42bf5bfa04dfeb58737179ef00f
+* MSAEz 로 모델링한 이벤트스토밍 결과:  https://www.msaez.io/#/storming/CWH9U9ZXJmRVhWyyz88s1h12bLz1/0aedf2d2760e55f8b59356cf29773139
 
 
 ### 이벤트 도출
