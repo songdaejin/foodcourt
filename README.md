@@ -90,9 +90,15 @@ B. 매장 주문관리
 ![image](https://user-images.githubusercontent.com/88808280/134810011-ac4bc771-b369-4fd6-b3e2-aa5fc6cff514.png)
 
 ### 1차 완성본에 대한 기능적/비기능적 요구사항을 커버하는지 검증
-![검증1](https://user-images.githubusercontent.com/88808251/133179151-31b820fe-0863-436a-9090-51b9a7f372ea.png)
-![검증2](https://user-images.githubusercontent.com/88808251/133173230-9f45a13a-2d64-4475-99ae-87cb756e0706.png)
 
+![image](https://user-images.githubusercontent.com/88808280/134810537-d5fbc4f6-c221-4921-941c-2b783d7657f8.png)
+
+- 1. 고객은 식당, 음식 및 수량을 선택 후 주문할수 있다
+- 2. 고객은 조리 접수 되지 않은 주문에 대해 취소 요청할수 있다
+- 3. 조리전에 주문건에 대해 접수 처리 후 조리 시작한다
+- 4. 조리가 완료된 주문건에 대해서는 주문완료 처리한다
+- 5. 주문 완료 처리한 주문은 알림판을 통해 알림 처리된다.
+- 6. 주문건에 대한 주문, 조리 상태를 조회 할수 있다.  
 
 ## 헥사고날 아키텍처 다이어그램 도출
     
