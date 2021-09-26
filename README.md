@@ -55,10 +55,10 @@ B. 매장 주문관리
 
 
 ## AS-IS 조직 (Horizontally-Aligned)
-![image](https://user-images.githubusercontent.com/89369983/133180330-14093197-2864-4b9c-8e5b-6ec6555e49f5.png)
+![image](https://user-images.githubusercontent.com/88808280/134804087-ccad9c5e-de5c-4c55-b385-0a6cd92ed444.png)
 
 ## TO-BE 조직 (Vertically-Aligned)
-![tobe](https://user-images.githubusercontent.com/89369983/132091699-2f0f9164-55da-49d5-a35f-dc6eba7eed19.PNG)
+![image](https://user-images.githubusercontent.com/88808280/134804111-b8010333-b3d4-4972-8cd7-579c123f4f23.png)
 
 ## Event Storming 결과
 * MSAEz 로 모델링한 이벤트스토밍 결과:  http://www.msaez.io/#/storming/CWH9U9ZXJmRVhWyyz88s1h12bLz1/2d59a42bf5bfa04dfeb58737179ef00f
