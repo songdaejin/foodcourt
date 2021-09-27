@@ -293,14 +293,18 @@ public class PolicyHandler{
 각 서비스들의 Rest API 호출을 통하여 테스트를 수행하였음
 
 ```shell
-책 대여 처리
-http post localhost:8081/rent bookId=1 price=1000 startDate=20210913 returnDate=20211013 customerId=1234 customerPhoneNo=01012345678 rentStatus=RENT
+음식 주문
+http post http://localhost:8081/orders/order shopId=1 menuId=1 qty=1 price=1000 status=order
 
-책 대여를 위한 예치금 적립
-http post localhost:8086/point customerId=1234 point=10000
+주문취소 
+http post http://localhost:8081/orders/cancel orderId=1 status=cancel
 
-책 등록 
-http post localhost:8082/book bookId=1 price=1000 bookName=azureMaster
+조리 상태 변경 
+. 조리시작: http  post  http://localhost:8082/cook/stausChange orderId=9 cookStatus=cook
+. 조리완료: http  post  http://localhost:8082/cook/stausChange orderId=10 cookStatus=cooked
+
+alarm 현황
+http http://localhost:8083/alarms
 ```
 
 ## Gateway 적용
