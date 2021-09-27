@@ -113,22 +113,16 @@ B. 매장 주문관리
 분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라,구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다 (각자의 포트넘버는 8081 ~ 8086이다)
 
 ```shell
-cd book
+cd order
 mvn spring-boot:run
 
-cd payment
+cd cook
 mvn spring-boot:run 
 
-cd point
+cd notification
 mvn spring-boot:run 
 
-cd rental 
-mvn spring-boot:run
-
-cd mypage 
-mvn spring-boot:run
-
-cd alert 
+cd shopaccount 
 mvn spring-boot:run
 
 cd gateway
@@ -138,11 +132,11 @@ mvn spring-boot:run
 msaez Event-Storming을 통해 구현한 Aggregate 단위로 Entity 를 정의 하였으며,
 Entity Pattern 과 Repository Pattern을 적용하기 위해 Spring Data REST 의 RestRepository 를 적용하였다.
 
-Bookrental 서비스의 rental.java
+foodcourt 서비스의 Order.java
 
 ```java
 
-package book.rental.system;
+package foodcourt;
 
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;
@@ -150,127 +144,148 @@ import java.util.List;
 import java.util.Date;
 
 @Entity
-@Table(name="Rental_table")
-public class Rental {
+@Table(name="Order_table")
+public class Order {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long rentalId;
-    private Integer bookId;
-    private String bookName;
-    private Integer price;
-    private Date startDate;
-    private Date returnDate;
-    private Integer customerId;
-    private String customerPhoneNo;
-    private String rentStatus;
+    private Long orderId;
+    private Long shopId;
+    private Long menuId;
+    private Long qty;
+    private Long price;
+    private String status;
 
     @PostPersist
     public void onPostPersist(){
 
-        //  서적 대여 시 상태변경 후 Publish 
-        BookRented bookRented = new BookRented();
-        BeanUtils.copyProperties(this, bookRented);
-        bookRented.publishAfterCommit();
-
-    }
-
-    @PostUpdate 
-    public void onPostUpdate(){
-
-        if("RETURN".equals(this.rentStatus)){           // 반납 처리 Publish
-            BookReturned bookReturned = new BookReturned();
-            BeanUtils.copyProperties(this, bookReturned);
-            bookReturned.publishAfterCommit();
-
-        } else if("DELAY".equals(this.rentStatus)){     // 반납지연 Publish
-            ReturnDelayed returnDelayed = new ReturnDelayed();
-            BeanUtils.copyProperties(this, returnDelayed);
-            returnDelayed.publishAfterCommit();
+        if("order".equals(this.status)){
+            Ordered ordered = new Ordered();
+            BeanUtils.copyProperties(this, ordered);
+            ordered.publishAfterCommit();
         }
-    }    
-
-    public Long getRentalId() {
-        return rentalId;
     }
 
-    public void setRentalId(Long rentalId) {
-        this.rentalId = rentalId;
-    }
-    public Integer getBookId() {
-        return bookId;
+    @PostUpdate
+    public void onPreUpdate(){
+
+         if("cancel".equals(this.status)){
+            Canceled canceled = new Canceled();
+            BeanUtils.copyProperties(this, canceled);
+            canceled.publishAfterCommit();
+        }
     }
 
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
+    public Long getOrderId() {
+        return orderId;
     }
-    public String getBookName() {
-        return bookName;
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
-    .. getter/setter Method 생략
+    .. getter/setter Method 이하 생략
 ```
 
- Payment 서비스의 PolicyHandler.java
- rental 완료시 Payment 이력을 처리한다.
+
+ RestController구현체 OrderController.java
+ Order 처리 및 Order Cancel 처리한다.
 ```java
-package book.rental.system;
+@RestController
+ public class OrderController {
 
-import book.rental.system.config.kafka.KafkaProcessor;
 
-import java.util.Optional;
+    @Autowired OrderRepository orderRepositroy;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.stereotype.Service;
+    @PostMapping("orders/order")
+    Order oderCreate(@RequestBody String data) {
 
-@Service
-public class PolicyHandler{
-    @Autowired PaymentRepository paymentRepository;
-
-    @StreamListener(KafkaProcessor.INPUT)
-    public void wheneverBookRented_PayPoint(@Payload BookRented bookRented){
-
-        if(!bookRented.validate()) return;
-
-        if("RENT".equals(bookRented.getRentStatus())){
-
-            Payment payment =new Payment();
-
-            payment.setBookId(bookRented.getBookid());
-            payment.setCustomerId(bookRented.getCustomerId());
-            payment.setPrice(bookRented.getPrice());
-            payment.setRentalId(bookRented.getRentalId());
-            paymentRepository.save(payment);
-        }else{
-            System.out.println("\n\n##### listener PayPoint Process Failed : Status -->" +bookRented.getRentStatus() + "\n\n");
+        ObjectMapper mapper = new ObjectMapper();
+        Order order = null;
+        try {
+             order = mapper.readValue(data, Order.class);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        return orderRepositroy.save(order);
     }
 
+    @PostMapping("orders/cancel")
+    Boolean oderCancel(@RequestBody String data) {
+    
+        ObjectMapper mapper = new ObjectMapper();
+        Order orderInfo = null;
+        try {
+            orderInfo = mapper.readValue(data, Order.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /* Cancel 가능한지 주문상태 조회 */
+        String OrderStatus = OrderApplication.applicationContext.getBean(foodcourt.external.CookService.class)
+        .orderCheck(orderInfo.getOrderId());
+
+        if("order".equals(OrderStatus)){
+            Optional<Order> orderOptional = orderRepositroy.findById(orderInfo.getOrderId());
+            Order order = orderOptional.get();
+            order.setStatus(orderInfo.getStatus());
+            orderRepositroy.save(order);
+            
+            return true;
+        }else{
+            System.out.println("########### Order Cancel Failed - Reason_OerderStatus : "+ OrderStatus);
+            
+            return false;
+        }
+
+
+    }
+
+ }
+
+```
+
+ Cook 서비스의 PolicyHandler.java
+
+
+```java
+@Service
+public class PolicyHandler{
+    @Autowired CookRepository cookRepository;
+
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverOrdered_OrderReceipt(@Payload Ordered ordered){
+
+        if(!ordered.validate()) return;
+
+        Cook cook = new Cook();
+        cook.setShopId(ordered.getShopId());
+        cook.setOrderId(ordered.getOrderId());
+        cook.setMenuId(ordered.getMenuId());
+        cook.setCookStatus(ordered.getStatus());
+        
+        cookRepository.save(cook);
+
+    }
+
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverCanceled_OrderCancel(@Payload Canceled canceled){
+
+        if(!canceled.validate()) return;
+        
+        // 주문조회
+        Long orderId = canceled.getOrderId();
+        Optional<Cook> cookOptional = cookRepository.findByOrderId(orderId);
+        Cook cook = cookOptional.get();
+        
+        // 주문 취소처리 
+        cook.setCookStatus("cancel");
+        cookRepository.save(cook);
+
+    }
 
     @StreamListener(KafkaProcessor.INPUT)
     public void whatever(@Payload String eventString){}
-
-
-}
-
-```
-
- BookRental 서비스의 RentalRepository.java
-
-
-```java
-package book.rental.system;
-
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-
-@RepositoryRestResource(collectionResourceRel="rentals", path="rentals")
-public interface RentalRepository extends PagingAndSortingRepository<Rental, Long>{
-
-
 }
 ```
 
