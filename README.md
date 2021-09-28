@@ -510,14 +510,14 @@ Cook 서비스 내 Oder 서비스 Feign Client 요청 대상
 
 SAGA 패턴은 각 서비스의 트랜잭션은 단일 서비스 내의 데이터를 갱신하는 일종의 로컬 트랜잭션 방법이고 서비스의 트랜잭션이 완료 후에 다음 서비스가 트리거 되어, 트랜잭션을 실행하는 방법입니다.
 
-현재 도서 대여 시스템에도 SAGA 패턴에 맞추어서 작성되어 있다.
+SAGA 패턴에 맞추어서 작성되어 있다.
 
 **SAGA 패턴에 맞춘 트랜잭션 실행**
 
-![saga1](https://user-images.githubusercontent.com/33479996/133033751-af4b9595-276a-4b9d-9148-4e4a0bc46b61.PNG)
+![image](https://user-images.githubusercontent.com/88808280/135009549-12d8900e-e163-4bdd-9186-f04da2482089.png)
 
-현재 도서 대여 시스템은 SAGA 패턴에 맞추어서 rental 서비스의 rental 생성이 완료되면 Payment 서비스를 트리거하게 되어 payment를 업데이트하여
-rental 서비스에서 주문을 수신하게 작성되어 있다.
+SAGA 패턴에 맞추어서 order 서비스의 주문 생성이 완료되면 Cook 서비스를 트리거하게 되어 cook 상태를 업데이트하며,
+Cook 상태가 완료 상태로 변경되면 Alarm 서비스에서 트리하게 되어있다.
 
 아래와 같이 실행한 결과이다.
 
