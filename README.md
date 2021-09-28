@@ -628,7 +628,7 @@ $ kubectl autoscale deploy booking --min=1 --max=10 --cpu-percent=15
 ## Zero-Downtime deploy (Readiness Probe)
 
   * readiness 미 설정 상태에서, 배포중 siege 테스트 진행 
-  - rental 서비스 배포 중 정상 실행중 서비스 요청은 성공(201), 배포중인 서비스에 요청은 실패 (503 ) 확인
+  - food 서비스 배포 중 정상 실행중 서비스 요청은 성공(201), 배포중인 서비스에 요청은 실패 (503 ) 확인
 ![image](https://user-images.githubusercontent.com/89369983/133118944-e973c8c8-6e3c-4072-9e3c-f6dff07b56bc.png)
 
   * deployment.yml에 readiness 설정 및 적용 후 siege 테스트 진행시 안정적인 서비스 응답확인
