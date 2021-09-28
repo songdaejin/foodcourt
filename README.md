@@ -519,20 +519,22 @@ SAGA 패턴에 맞추어서 작성되어 있다.
 SAGA 패턴에 맞추어서 order 서비스의 주문 생성이 완료되면 Cook 서비스를 트리거하게 되어 cook 상태를 업데이트하며,
 Cook 상태가 완료 상태로 변경되면 Alarm 서비스에서 트리하게 되어있다.
 
-아래와 같이 실행한 결과이다.
+아래는 Oder 서비스에 주문생성 실행한 결과이다.
 
-![saga2](https://user-images.githubusercontent.com/33479996/133034467-b75bd437-f5f7-40f7-8d0c-5fc79abca509.PNG)
+![image](https://user-images.githubusercontent.com/88808280/135023646-f027a4c9-3f62-49ee-b0cc-22a1515f04d4.png)
 
-위와 같이 rental 서비스에서 주문을 생성하게 될 경우 아래와 같이 Payment 서비스에서 payment 상태를 업데이트 하게 된다. 
+위와 같이 Order 서비스에서 주문을 생성하게 될 경우 아래와 같이 Cook 서비스에서 Cook(조리요청) 생성 하게 된다. 
 
-![SAGA3](https://user-images.githubusercontent.com/33479996/133034677-5998fe8a-ae92-4bc7-91ba-485580d1f8db.PNG)
+![image](https://user-images.githubusercontent.com/88808280/135023862-f091ea68-3da2-4813-845e-e7aa3c1f814f.png)
 
 
-위와 같이 Payment 서비스에서 상태를 업데이트 하면서 이벤트를 발신하게 되고 이를 수신 받은 MyPage 서비스에서 Point를 아래와 같이 차감하게 된다.
+위와 같이 Cook 서비스에서 조리 상태를 완료로 업데이트 하면 이벤트를 발신하게 되고 이를 수신 받은 Alarm 서비스에서 수신하여 처리한다.
 
-![SAGA4](https://user-images.githubusercontent.com/33479996/133035070-22465fee-236b-465e-a135-876c184b715a.PNG)
+- 조리 상태변경(조리완료)
+![image](https://user-images.githubusercontent.com/88808280/135024073-e5765612-7fbe-44d0-b526-b387f366e480.png)
 
-![SAGA5](https://user-images.githubusercontent.com/33479996/133035437-dab9c7ce-4316-4d64-af03-a4458ac163d3.PNG)
+- 알람 서비스(주문건에 대한 조리 완료)
+![image](https://user-images.githubusercontent.com/88808280/135024183-1768dbfa-a580-4a90-a279-662c4d1857bc.png)
 
 
 # 운영
