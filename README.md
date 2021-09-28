@@ -391,17 +391,17 @@ shopAccount(View)는 Materialized View로 구현하여, 타 마이크로서비�
 
 주문(Order), 음식조리 상태변경(Cook) Transaction 발생 후 shopAccount 조회 결과 
 
-- 예치금 적립
+- 주문 (order)
 
-![image](https://user-images.githubusercontent.com/89369983/133173724-2be57ffb-2b53-4dec-ad46-1f82df895192.png)
+![image](https://user-images.githubusercontent.com/88808280/135024960-e135d091-8ce6-485d-b55c-5ce77d3be713.png)
 
-- 도서 대여
+- 조리완료 처리(cook)
 
-![image](https://user-images.githubusercontent.com/89369983/133173763-cc9effde-4845-4fa1-9d85-8d2782dd5141.png)
+![image](https://user-images.githubusercontent.com/88808280/135025034-b882662b-529a-458b-b08e-4b4a6a99e272.png)
 
-- mypage 대여 현황 조회
+- 전체 주문 현황(shopaccount)
 
-![image](https://user-images.githubusercontent.com/89369983/133173774-563b0f9b-0538-4345-b14c-369b7c610e95.png)
+![image](https://user-images.githubusercontent.com/88808280/135025250-fe663474-7f60-43b6-a3c3-5c09def82efd.png)
 
 
 
