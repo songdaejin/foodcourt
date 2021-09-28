@@ -543,40 +543,31 @@ Cook 상태가 완료 상태로 변경되면 Alarm 서비스에서 트리하게 
 ```sh
 
 cd gateway
-az acr build --registry rentbook --image grp03.azurecr.io/gateway:latest .
+az acr build --registry user0808 --image user0808.azurecr.io/gateway:latest .
 
 cd kubernetes
 kubectl apply -f deployment.yml
 kubectl apply -f service.yaml
 
 cd ..
-cd Rental
-az acr build --registry rentbook --image grp03.azurecr.io/rental:latest .
+cd order
+az acr build --registry user0808 --image user0808.azurecr.io/order:latest .
 
 cd kubernetes
 kubectl apply -f deployment.yml
 kubectl apply -f service.yaml
 
 cd ..
-cd Point
-az acr build --registry rentbook --image grp03.azurecr.io/point:latest .
+cd cook
+az acr build --registry user0808 --image user0808.azurecr.io/cook:latest .
 
 cd kubernetes
 kubectl apply -f deployment.yml
 kubectl apply -f service.yaml
 
 cd ..
-cd Payment
-az acr build --registry rentbook --image grp03.azurecr.io/payment:latest .
-
-cd kubernetes
-kubectl apply -f deployment.yml
-kubectl apply -f service.yaml
-
-
-cd ..
-cd book
-az acr build --registry rentbook --image grp03.azurecr.io/book:latest .
+cd notification
+az acr build --registry user0808 --image user0808.azurecr.io/notification:latest .
 
 cd kubernetes
 kubectl apply -f deployment.yml
@@ -584,8 +575,8 @@ kubectl apply -f service.yaml
 
 
 cd ..
-cd View
-az acr build --registry rentbook --image grp03.azurecr.io/view:latest .
+cd shopAccount
+az acr build --registry user0808 --image user0808.azurecr.io/shopaccount:latest .
 
 cd kubernetes
 kubectl apply -f deployment.yml
