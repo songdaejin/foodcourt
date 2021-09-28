@@ -598,12 +598,12 @@ configmap 구성 내용 조회
 
 
 ## Autoscale (HPA)
-프로모션 등으로 사용자 유입이 급격한 증가시 안정적인 운영을 위해 Rental 자동화된 확장 기능을 적용 함
+프로모션 등으로 사용자 유입이 급격한 증가시 안정적인 운영을 위해 Order 시스템 자동화된 확장 기능을 적용 함
 
 Resource 설정 및 유입전 현황 
-![image](https://user-images.githubusercontent.com/89369983/133118106-ab6141ad-bd66-40bd-a14c-bcf21ecf5e23.png)
+![image](https://user-images.githubusercontent.com/88808280/135029865-f1c9d240-b30d-434c-9565-a12cd2945b2b.png)
 
-- rental 서비스에 대한 replica 를 동적으로 늘려주도록 HPA 를 설정(CPU 사용량이 15프로를 넘어서면 replica 를 10개까지 늘리도록 설정)
+- Order 서비스에 대한 replica 를 동적으로 늘려주도록 HPA 를 설정(CPU 사용량이 15프로를 넘어서면 replica 를 10개까지 늘리도록 설정)
 
 ```sh
 $ kubectl autoscale deploy booking --min=1 --max=10 --cpu-percent=15
@@ -611,14 +611,14 @@ $ kubectl autoscale deploy booking --min=1 --max=10 --cpu-percent=15
 
 서비스에 Traffic 유입(siege를 통해 워크로드 발생)
 
-![image](https://user-images.githubusercontent.com/89369983/133118622-1a8e337b-b522-44fa-81c2-4b67877144d3.png)
+![image](https://user-images.githubusercontent.com/88808280/135029974-6093ef0b-bb91-4c3d-8ab4-b85abd074fe0.png)
 
 부하테스트 결과 HPA 반영
-![image](https://user-images.githubusercontent.com/89369983/133118351-4315f1b0-85b9-46ea-b23a-9d90ac21f6d5.png)
+![image](https://user-images.githubusercontent.com/88808280/135030003-c3422240-b896-47ab-ad5d-076b18314951.png)
 
 ## Circuit Breaker
   * Istio 다운로드 및 PATH 추가, 설치
-  * rentbook namespace에 Istio주입
+  * foodcourt namespace에 Istio주입
 ![image](https://user-images.githubusercontent.com/89369983/133118751-c6ce8e89-a0ba-4655-bd7d-3da68f269bed.png)
 
   * Transaction이 과도할 경우 Circuit Breaker 를 통하여 장애격리 처리
