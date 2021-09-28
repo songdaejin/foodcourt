@@ -535,6 +535,7 @@ Cook 상태가 완료 상태로 변경되면 Alarm 서비스에서 트리하게 
 ![image](https://user-images.githubusercontent.com/88808280/135024073-e5765612-7fbe-44d0-b526-b387f366e480.png)
 
 알람 서비스(주문건에 대한 조리 완료)
+
 ![image](https://user-images.githubusercontent.com/88808280/135024183-1768dbfa-a580-4a90-a279-662c4d1857bc.png)
 
 
