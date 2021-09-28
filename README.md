@@ -497,13 +497,8 @@ Cook 서비스 내 Oder 서비스 Feign Client 요청 대상
 동작 확인
 
 
-책대여 요청 시 가용 예치금이 있으면 대여 처리됨 
-![saga2](https://user-images.githubusercontent.com/33479996/133034467-b75bd437-f5f7-40f7-8d0c-5fc79abca509.PNG)
-
-
-
-책대여 요청 시 가용 예치금이 부족하면 대여 처리 안됨 
-![image](https://user-images.githubusercontent.com/89369983/133175765-10ee24d6-36da-483f-89a1-c25a1f7c11c1.png)
+주문상태가 주문접수 상태가 아닌 주문건에 대한 취소 요청시 처리  
+![image](https://user-images.githubusercontent.com/88808280/135024686-99b50a6a-f855-499e-b595-54437cba2cfc.png)
 
 
 ## SAGA패턴 
