@@ -410,84 +410,88 @@ mypage 서비스의 DB와 Rental/Payment/Point 서비스의 DB를 다른 DB를 �
 
 |서비스|DB|pom.xml|
 | :--: | :--: | :--: |
-|Rental| H2 |![image](https://user-images.githubusercontent.com/2360083/121104579-4f10e680-c83d-11eb-8cf3-002c3d7ff8dc.png)|
-|Payment| H2 |![image](https://user-images.githubusercontent.com/2360083/121104579-4f10e680-c83d-11eb-8cf3-002c3d7ff8dc.png)|
-|Point| H2 |![image](https://user-images.githubusercontent.com/2360083/121104579-4f10e680-c83d-11eb-8cf3-002c3d7ff8dc.png)|
-|MyPage| HSQL |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
+|Order| H2 |![image](https://user-images.githubusercontent.com/2360083/121104579-4f10e680-c83d-11eb-8cf3-002c3d7ff8dc.png)|
+|Cook| H2 |![image](https://user-images.githubusercontent.com/2360083/121104579-4f10e680-c83d-11eb-8cf3-002c3d7ff8dc.png)|
+|ShopAccount| H2 |![image](https://user-images.githubusercontent.com/2360083/121104579-4f10e680-c83d-11eb-8cf3-002c3d7ff8dc.png)|
+|Alarm| HSQL |![image](https://user-images.githubusercontent.com/2360083/120982836-1842be00-c7b4-11eb-91de-ab01170133fd.png)|
 
 
 ## 동기식 호출과 Fallback 처리
-책 대여를 위해서는 사용자 예치금이 적립되어 있어야 하며, 예치금은 책대여 금액 이상 적립되어 있어야 하는 요구사항이 있음
+주문 취소하기 위해서는 주문진행 상태가 주문접수 상태(order)에서 주문취소가능하며, 조리 시작(cook) 및 완료(cooked) 상태에서는 취소할수 없는 요구사항이 있음
 해당 처리는 동기 호출이 필요하다고 판단하여 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 구현 하였음 
 
-Rental 서비스 내 PointService
+Order 서비스 내 CookService
 
 ```java
-package book.rental.system.external;
+package foodcourt.external;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 
-@FeignClient(name="Point", url="http://${api.url.Point}:8080")
-public interface PointService {
-    @RequestMapping(method= RequestMethod.GET, path="/points/checkPoint")
-    public boolean checkPoint(@RequestParam Long customerId, @RequestParam Long price);
-    
+@FeignClient(name="Cook", url="http://${api.url.Cook}:8080")
+public interface CookService {
+    @RequestMapping(method= RequestMethod.GET, path="/cook/cookStatusCheck")
+    public String orderCheck(@RequestParam Long orderId);
+
 }
 ```
 
-Rental 서비스 내 Req/Resp
+Order 서비스 내 Req/Resp
 
 ```java
-    @PostPersist
-    public void onPostPersist() throws Exception{
-        // 예치금이 책대여비용이상 보유하고 있는지 점검
-        if(RentalApplication.applicationContext.getBean(book.rental.system.external.PointService.class)
-        .checkPoint(this.customerId, this.price)){
-            BookRented bookRented = new BookRented();
-            BeanUtils.copyProperties(this, bookRented);
-            bookRented.publishAfterCommit();
-        }
-        else{
-            throw new Exception("Customer Point Check Exception !!");
+    @PostMapping("orders/cancel")
+    Boolean oderCancel(@RequestBody String data) {
+       
+        ObjectMapper mapper = new ObjectMapper();
+        Order orderInfo = null;
+        try {
+            orderInfo = mapper.readValue(data, Order.class);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        /* Cancel 가능한지 주문상태 조회 */
+        String OrderStatus = OrderApplication.applicationContext.getBean(foodcourt.external.CookService.class)
+        .orderCheck(orderInfo.getOrderId());
+
+        if("order".equals(OrderStatus)){
+            Optional<Order> orderOptional = orderRepositroy.findById(orderInfo.getOrderId());
+            Order order = orderOptional.get();
+            order.setStatus(orderInfo.getStatus());
+            orderRepositroy.save(order);
+            return true;
+        }else{
+            System.out.println("########### Order Cancel Failed - Reason_OerderStatus : "+ OrderStatus);
+            return false;
+        }
     }
 ```
 
-Point 서비스 내 Rental 서비스 Feign Client 요청 대상
+Cook 서비스 내 Oder 서비스 Feign Client 요청 대상
 
 ```java
-  @RestController
- public class PointController {
+@RestController
+ public class CookController {
 
-    @Autowired
-    PointRepository pointRepository;
+    @Autowired CookRepository cookRepositroy;
+    
+    @RequestMapping(value = "/cook/cookStatusCheck",
+    method = RequestMethod.GET,
+    produces = "application/json;charset=UTF-8")
+    public String cookStatusCheck(HttpServletRequest request, HttpServletResponse response) {
 
-    @RequestMapping(value = "/points/checkPoint",
-        method = RequestMethod.GET,
-        produces = "application/json;charset=UTF-8")
-    public boolean checkPoint(HttpServletRequest request, HttpServletResponse response) {
-        boolean status = false;
+        Long orderId = Long.valueOf(request.getParameter("orderId"));
+        Optional<Cook> cookOptional = cookRepositroy.findByOrderId(orderId);
+        Cook cook = cookOptional.get();
 
-        Long customerId = Long.valueOf(request.getParameter("customerId"));
-        Long price = Long.valueOf(request.getParameter("price"));
-        
-        Optional<Point> point = pointRepository.findByCustomerId(customerId);
-        if(point.isPresent()){
-            Point pointValue = point.get();
-            System.out.println("##### /point/checkPoint  pointValue.getPoint() : #####"+pointValue.getPoint());
-            //Point 가 차감포인트 보다 큰지 점검 
-            if(pointValue.getPoint() - price > 0) {
-                status = true;
-            }
-        }
-
-        return status;
-    }
+        System.out.println("##### /cook/cookStatusCheck  cook Status : "+cook.getCookStatus());
+        return cook.getCookStatus();
+    }    
+ }
 ```
 
 동작 확인
