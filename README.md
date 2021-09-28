@@ -586,15 +586,15 @@ kubectl apply -f service.yaml
 
 ## Config Map
 - 변경 가능성이 있는 항목은 ConfigMap을 사용하여 설정 변경 할수 있도록 구성   
-  - Rental 서비스에서 바라보는 Point 서비스 url 일부분을 ConfigMap 사용하여 구현 함
+  - Order 서비스에서 바라보는 Cook 서비스 url 일부분을 ConfigMap 사용하여 구현 함
 
 configmap 설정 및 소스 반영
 
-![image](https://user-images.githubusercontent.com/89369983/133117696-5f3b4fd7-e850-4caa-901b-b3171baca69b.png)
+![image](https://user-images.githubusercontent.com/88808280/135027436-9d8f758c-4864-453a-b103-30055b40fc0e.png)
 
 configmap 구성 내용 조회
 
-![image](https://user-images.githubusercontent.com/89369983/133117908-934c3b40-99a2-4905-9963-6692d6c82a28.png)
+![image](https://user-images.githubusercontent.com/88808280/135027721-7e4af24d-4947-4791-af2a-7ce6d421bc3b.png)
 
 
 ## Autoscale (HPA)
