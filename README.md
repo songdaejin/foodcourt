@@ -530,10 +530,11 @@ Cook 상태가 완료 상태로 변경되면 Alarm 서비스에서 트리하게 
 
 위와 같이 Cook 서비스에서 조리 상태를 완료로 업데이트 하면 이벤트를 발신하게 되고 이를 수신 받은 Alarm 서비스에서 수신하여 처리한다.
 
-- 조리 상태변경(조리완료)
+조리 상태변경(조리완료)
+
 ![image](https://user-images.githubusercontent.com/88808280/135024073-e5765612-7fbe-44d0-b526-b387f366e480.png)
 
-- 알람 서비스(주문건에 대한 조리 완료)
+알람 서비스(주문건에 대한 조리 완료)
 ![image](https://user-images.githubusercontent.com/88808280/135024183-1768dbfa-a580-4a90-a279-662c4d1857bc.png)
 
 
